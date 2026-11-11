@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4338CA">
+  <title>แบบสอบถามความพึงพอใจต่อระบบศูนย์รวมบริการเอกสาร LAMS Document Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Prompt', 'sans-serif'],
+          },
+          colors: {
+            indigo: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              600: '#4F46E5',
+              700: '#4338CA',
+              800: '#3730A3',
+              900: '#312E81',
+              950: '#1E1B4B',
+            },
+            slate: {
+              50: '#F8FAFC',
+              100: '#F1F5F9',
+              200: '#E2E8F0',
+              300: '#CBD5E1',
+              400: '#94A3B8',
+              500: '#64748B',
+              600: '#475569',
+              700: '#334155',
+              800: '#1E293B',
+              900: '#0F172A',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    body {
+      font-family: 'Prompt', sans-serif;
+      background-color: #F8FAFC;
+      color: #0F172A;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .rating-btn {
+      min-width: 44px;
+      min-height: 44px;
+      transition: all 0.18s ease;
+    }
+    .rating-btn:focus-visible {
+      outline: 2px solid #4F46E5;
+      outline-offset: 2px;
+    }
+    .rating-btn.active {
+      background-color: #4338CA;
+      color: #FFFFFF;
+      border-color: #4338CA;
+      box-shadow: 0 4px 10px rgba(67, 56, 202, 0.22);
+      font-weight: 600;
+    }
+
+    .card-choice {
+      transition: all 0.18s ease;
+    }
+    .card-choice:has(input:focus-visible) {
+      outline: 2px solid #4F46E5;
+      outline-offset: 2px;
+    }
+    .card-choice.active {
+      border-color: #4F46E5;
+      background-color: rgba(238, 242, 255, 0.65);
+      color: #1E1B4B;
+      box-shadow: 0 1px 3px rgba(67, 56, 202, 0.08);
+    }
+
+    .fade-enter {
+      animation: fadeIn 0.28s ease-out forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between py-6 sm:py-10 px-4 sm:px-6">
+
+  <!-- Main Container: max-w-3xl ให้สมส่วนพอดีสายตาบนจอคอมพิวเตอร์ -->
+  <div class="max-w-3xl mx-auto w-full">
+
+    <!-- Top Header -->
+    <header class="mb-6 sm:mb-8 text-center sm:text-left flex flex-col sm:flex-row items-center sm:items-start gap-4">
+      <div class="w-14 h-14 rounded-2xl bg-indigo-700 text-white flex items-center justify-center shrink-0 shadow-sm border border-indigo-800/30">
+        <i data-lucide="layers" class="w-7 h-7"></i>
+      </div>
+      <div>
+        <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60 mb-1.5">
+          <span>ศูนย์รวมบริการเอกสารอิเล็กทรอนิกส์</span>
+        </div>
+        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+          <span class="block">แบบสอบถามความพึงพอใจ</span>
+          <span class="block text-indigo-950 mt-0.5">ระบบศูนย์รวมบริการเอกสาร LAMS Document Hub</span>
+        </h1>
+        <p class="text-sm text-slate-500 mt-1">คณะศิลปศาสตร์และวิทยาการจัดการ มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตสุราษฎร์ธานี</p>
+      </div>
+    </header>
+
+    <!-- Main Wizard Card -->
+    <main class="bg-white border border-slate-200/90 rounded-2xl shadow-sm overflow-hidden">
+
+      <!-- Progress Section -->
+      <div id="progressSection" class="p-5 sm:p-6 border-b border-slate-100 bg-slate-50/50">
+        <div class="flex items-center justify-between text-xs font-semibold text-slate-500 mb-3">
+          <span id="stepBadgeText" class="text-indigo-700 font-medium">ขั้นตอนที่ 1 จาก 4</span>
+          <span id="progressPercentText" class="text-slate-400">25%</span>
+        </div>
+
+        <!-- Progress Bar Track -->
+        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+          <div id="progressBar" class="bg-indigo-700 h-full rounded-full transition-all duration-300 ease-out" style="width: 25%;"></div>
+        </div>
+
+        <!-- Step Indicator Dots -->
+        <div class="grid grid-cols-4 gap-2 mt-4 text-center">
+          <div class="step-indicator" data-step-dot="1">
+            <span class="text-xs font-medium text-indigo-700 block truncate">1. ข้อมูลผู้ใช้</span>
+          </div>
+          <div class="step-indicator" data-step-dot="2">
+            <span class="text-xs font-medium text-slate-400 block truncate">2. ความพึงพอใจ</span>
+          </div>
+          <div class="step-indicator" data-step-dot="3">
+            <span class="text-xs font-medium text-slate-400 block truncate">3. ประโยชน์ที่ได้รับ</span>
+          </div>
+          <div class="step-indicator" data-step-dot="4">
+            <span class="text-xs font-medium text-slate-400 block truncate">4. ข้อเสนอแนะ</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Body -->
+      <form id="surveyForm" onsubmit="return false;" class="p-6 sm:p-8">
+
+        <!-- ================= STEP 1: ผู้ใช้งานและบริการ ================= -->
+        <div id="stepPanel1" class="step-panel fade-enter">
+          <div class="mb-6">
+            <h2 class="text-lg font-bold text-slate-900">ข้อมูลผู้ตอบและประวัติการใช้งาน</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">กรุณาระบุสถานะและบริการที่ท่านเคยใช้งาน เพื่อช่วยให้เราเข้าใจความต้องการได้ตรงกลุ่ม</p>
+          </div>
+
+          <!-- Question 1.1: กลุ่มผู้ตอบ (3 กลุ่ม) -->
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-slate-800 mb-2.5">
+              1. บทบาทหรือกลุ่มผู้ใช้งานของท่าน <span class="text-rose-500">*</span>
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <label class="card-choice flex items-center gap-3 p-3.5 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300">
+                <input type="radio" name="userRole" value="staff" class="sr-only" onchange="handleRoleChange(this)">
+                <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center shrink-0 radio-circle">
+                  <div class="w-2 h-2 rounded-full bg-indigo-700 hidden radio-dot"></div>
+                </div>
+                <span class="text-sm font-medium text-slate-700">อาจารย์ / บุคลากรสายสนับสนุน</span>
+              </label>
+
+              <label class="card-choice flex items-center gap-3 p-3.5 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300">
+                <input type="radio" name="userRole" value="student" class="sr-only" onchange="handleRoleChange(this)">
+                <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center shrink-0 radio-circle">
+                  <div class="w-2 h-2 rounded-full bg-indigo-700 hidden radio-dot"></div>
+                </div>
+                <span class="text-sm font-medium text-slate-700">นักศึกษา</span>
+              </label>
+
+              <label class="card-choice flex items-center gap-3 p-3.5 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300">
+                <input type="radio" name="userRole" value="student_assistant" class="sr-only" onchange="handleRoleChange(this)">
+                <div class="w-4 h-4 rounded-full border border-slate-300 flex items-center justify-center shrink-0 radio-circle">
+                  <div class="w-2 h-2 rounded-full bg-indigo-700 hidden radio-dot"></div>
+                </div>
+                <span class="text-sm font-medium text-slate-700">นักศึกษาช่วยงานอาจารย์</span>
+              </label>
+            </div>
+            <p id="errRole" role="alert" class="text-xs text-rose-500 mt-1.5 hidden flex items-center gap-1">
+              <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> กรุณาเลือกกลุ่มผู้ใช้งานของท่าน
+            </p>
+          </div>
+
+          <!-- Question 1.2: บริการที่เคยใช้งาน (6 ฟอร์มทางการ + ยังไม่เคยยื่น) -->
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-slate-800 mb-1">
+              2. งานบริการเอกสารที่ท่านเคยยื่นคำขอ <span class="text-rose-500">*</span>
+            </label>
+            <p class="text-xs text-slate-500 mb-3">(สามารถเลือกได้มากกว่า 1 รายการ)</p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <label class="card-choice flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 service-item">
+                <input type="checkbox" name="services" value="project_budget" class="sr-only" onchange="handleServiceChange(this)">
+                <div class="w-4 h-4 rounded border border-slate-300 flex items-center justify-center shrink-0 check-box">
+                  <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                </div>
+                <span class="text-sm text-slate-700">ขออนุมัติจัดโครงการ (มีงบประมาณ)</span>
+              </label>
+
+              <label class="card-choice flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 service-item">
+                <input type="checkbox" name="services" value="project_no_budget" class="sr-only" onchange="handleServiceChange(this)">
+                <div class="w-4 h-4 rounded border border-slate-300 flex items-center justify-center shrink-0 check-box">
+                  <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                </div>
+                <span class="text-sm text-slate-700">ขออนุมัติจัดโครงการ (ไม่ใช้งบประมาณ)</span>
+              </label>
+
+              <label class="card-choice flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 service-item">
+                <input type="checkbox" name="services" value="speaker_external" class="sr-only" onchange="handleServiceChange(this)">
+                <div class="w-4 h-4 rounded border border-slate-300 flex items-center justify-center shrink-0 check-box">
+                  <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                </div>
+                <span class="text-sm text-slate-700">ขอเชิญเป็นวิทยากรภายนอก</span>
+              </label>
+
+              <label class="card-choice flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 service-item">
+                <input type="checkbox" name="services" value="speaker_internal" class="sr-only" onchange="handleServiceChange(this)">
+                <div class="w-4 h-4 rounded border border-slate-300 flex items-center justify-center shrink-0 check-box">
+                  <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                </div>
+                <span class="text-sm text-slate-700">ขอเชิญเป็นวิทยากรภายใน</span>
+              </label>
+
+              <label class="card-choice flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 service-item">
+                <input type="checkbox" name="services" value="field_trip" class="sr-only" onchange="handleServiceChange(this)">
+                <div class="w-4 h-4 rounded border border-slate-300 flex items-center justify-center shrink-0 check-box">
+                  <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                </div>
+                <span class="text-sm text-slate-700">ขอความอนุเคราะห์เข้าศึกษาดูงาน</span>
+              </label>
+
+              <label class="card-choice flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 service-item">
+                <input type="checkbox" name="services" value="interview_research" class="sr-only" onchange="handleServiceChange(this)">
+                <div class="w-4 h-4 rounded border border-slate-300 flex items-center justify-center shrink-0 check-box">
+                  <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                </div>
+                <span class="text-sm text-slate-700">ขอความอนุเคราะห์เก็บข้อมูลสัมภาษณ์</span>
+              </label>
+            </div>
+
+            <!-- ตัวเลือกพิเศษ: ยังไม่เคยยื่นคำขอจริง (เต็มความกว้าง) -->
+            <div class="mt-2.5">
+              <label class="card-choice flex items-center gap-3 p-3 border border-slate-200 rounded-xl cursor-pointer hover:border-slate-300 bg-slate-50/60">
+                <input type="checkbox" name="services" value="never_requested" id="cbNever" class="sr-only" onchange="handleNeverRequestedChange(this)">
+                <div class="w-4 h-4 rounded border border-slate-300 flex items-center justify-center shrink-0 check-box">
+                  <i data-lucide="check" class="w-3 h-3 text-white hidden check-icon"></i>
+                </div>
+                <span class="text-sm text-slate-600 italic">ยังไม่เคยยื่นคำขอจริง (กำลังศึกษาการใช้งาน)</span>
+              </label>
+            </div>
+
+            <p id="errServices" role="alert" class="text-xs text-rose-500 mt-2 hidden flex items-center gap-1">
+              <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> กรุณาเลือกบริการที่เคยใช้งานอย่างน้อย 1 รายการ
+            </p>
+          </div>
+        </div>
+
+        <!-- ================= STEP 2: ความพึงพอใจการใช้งาน (4 ข้อมาตรฐาน ชัดเจน ตรงจุด) ================= -->
+        <div id="stepPanel2" class="step-panel hidden fade-enter">
+          <div class="mb-4">
+            <h2 class="text-lg font-bold text-slate-900">ความพึงพอใจด้านการใช้งานระบบ</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">โปรดให้คะแนนตามระดับความพึงพอใจของท่าน (1 = น้อยที่สุด, 5 = มากที่สุด)</p>
+          </div>
+
+          <!-- Context Anchor: แสดงบริการที่ผู้ใช้อ้างอิงในการประเมินจากขั้นตอนที่ 1 -->
+          <div id="contextAnchorBox" class="mb-6 p-3.5 bg-indigo-50/50 border border-indigo-100 rounded-xl flex items-start gap-2.5 text-xs">
+            <i data-lucide="file-check" class="w-4 h-4 text-indigo-700 shrink-0 mt-0.5"></i>
+            <div class="flex-1">
+              <span class="font-semibold text-slate-800">อ้างอิงการประเมินจากบริการที่ท่านเลือก:</span>
+              <div id="contextAnchorServices" class="font-medium text-indigo-900 mt-1 flex flex-wrap gap-1.5">
+                <!-- Rendered dynamically by JS -->
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <!-- ข้อ 2.1 -->
+            <div class="rating-group" data-qid="q1_ease">
+              <div class="text-sm font-semibold text-slate-800 mb-2">1. ความสะดวกและง่ายในการกรอกข้อมูล <span class="text-rose-500">*</span></div>
+              <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span class="text-[11px] text-slate-400 w-12 text-left hidden sm:inline">น้อยที่สุด</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 flex-1">
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q1_ease', 1, this)">1</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q1_ease', 2, this)">2</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q1_ease', 3, this)">3</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q1_ease', 4, this)">4</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q1_ease', 5, this)">5</button>
+                </div>
+                <span class="text-[11px] text-slate-400 w-12 text-right hidden sm:inline">มากที่สุด</span>
+              </div>
+              <div class="flex justify-between text-[11px] text-slate-400 mt-1 sm:hidden">
+                <span>น้อยที่สุด (1)</span>
+                <span>มากที่สุด (5)</span>
+              </div>
+            </div>
+
+            <!-- ข้อ 2.2 -->
+            <div class="rating-group" data-qid="q2_accuracy">
+              <div class="text-sm font-semibold text-slate-800 mb-2">2. ความถูกต้องสมบูรณ์ของไฟล์เอกสาร (PDF / Word) ที่ได้รับ <span class="text-rose-500">*</span></div>
+              <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span class="text-[11px] text-slate-400 w-12 text-left hidden sm:inline">น้อยที่สุด</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 flex-1">
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q2_accuracy', 1, this)">1</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q2_accuracy', 2, this)">2</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q2_accuracy', 3, this)">3</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q2_accuracy', 4, this)">4</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q2_accuracy', 5, this)">5</button>
+                </div>
+                <span class="text-[11px] text-slate-400 w-12 text-right hidden sm:inline">มากที่สุด</span>
+              </div>
+            </div>
+
+            <!-- ข้อ 2.3 -->
+            <div class="rating-group" data-qid="q3_speed">
+              <div class="text-sm font-semibold text-slate-800 mb-2">3. ความรวดเร็วในการได้รับเอกสาร (ผ่านระบบหรือทางอีเมล) <span class="text-rose-500">*</span></div>
+              <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span class="text-[11px] text-slate-400 w-12 text-left hidden sm:inline">น้อยที่สุด</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 flex-1">
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q3_speed', 1, this)">1</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q3_speed', 2, this)">2</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q3_speed', 3, this)">3</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q3_speed', 4, this)">4</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q3_speed', 5, this)">5</button>
+                </div>
+                <span class="text-[11px] text-slate-400 w-12 text-right hidden sm:inline">มากที่สุด</span>
+              </div>
+            </div>
+
+            <!-- ข้อ 2.4 -->
+            <div class="rating-group" data-qid="q4_instruction">
+              <div class="text-sm font-semibold text-slate-800 mb-2">4. ความชัดเจนของขั้นตอนและคำแนะนำในระบบ <span class="text-rose-500">*</span></div>
+              <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span class="text-[11px] text-slate-400 w-12 text-left hidden sm:inline">น้อยที่สุด</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 flex-1">
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q4_instruction', 1, this)">1</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q4_instruction', 2, this)">2</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q4_instruction', 3, this)">3</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q4_instruction', 4, this)">4</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('q4_instruction', 5, this)">5</button>
+                </div>
+                <span class="text-[11px] text-slate-400 w-12 text-right hidden sm:inline">มากที่สุด</span>
+              </div>
+            </div>
+          </div>
+
+          <p id="errRatingsStep2" role="alert" class="text-xs text-rose-500 mt-4 hidden flex items-center gap-1">
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> กรุณาให้คะแนนความพึงพอใจให้ครบทั้ง 4 ข้อ
+          </p>
+        </div>
+
+        <!-- ================= STEP 3: ประโยชน์และผลลัพธ์ (3 ข้อ) ================= -->
+        <div id="stepPanel3" class="step-panel hidden fade-enter">
+          <div class="mb-6">
+            <h2 class="text-lg font-bold text-slate-900">ประโยชน์และผลลัพธ์ที่ได้รับ</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">โปรดประเมินประโยชน์ที่ท่านได้รับจากการใช้งานระบบ (1 = น้อยที่สุด, 5 = มากที่สุด)</p>
+          </div>
+
+          <div class="space-y-6">
+            <!-- ข้อ 3.1 -->
+            <div class="rating-group" data-qid="b1_time">
+              <div class="text-sm font-semibold text-slate-800 mb-2">1. ระบบช่วยประหยัดเวลาในการจัดทำเอกสารเมื่อเทียบกับวิธีเดิม <span class="text-rose-500">*</span></div>
+              <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span class="text-[11px] text-slate-400 w-12 text-left hidden sm:inline">น้อยที่สุด</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 flex-1">
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b1_time', 1, this)">1</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b1_time', 2, this)">2</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b1_time', 3, this)">3</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b1_time', 4, this)">4</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b1_time', 5, this)">5</button>
+                </div>
+                <span class="text-[11px] text-slate-400 w-12 text-right hidden sm:inline">มากที่สุด</span>
+              </div>
+            </div>
+
+            <!-- ข้อ 3.2 -->
+            <div class="rating-group" data-qid="b2_accuracy">
+              <div class="text-sm font-semibold text-slate-800 mb-2">2. ช่วยลดความผิดพลาดและลดการถูกส่งกลับมาแก้ไข <span class="text-rose-500">*</span></div>
+              <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span class="text-[11px] text-slate-400 w-12 text-left hidden sm:inline">น้อยที่สุด</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 flex-1">
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b2_accuracy', 1, this)">1</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b2_accuracy', 2, this)">2</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b2_accuracy', 3, this)">3</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b2_accuracy', 4, this)">4</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b2_accuracy', 5, this)">5</button>
+                </div>
+                <span class="text-[11px] text-slate-400 w-12 text-right hidden sm:inline">มากที่สุด</span>
+              </div>
+            </div>
+
+            <!-- ข้อ 3.3 -->
+            <div class="rating-group" data-qid="b3_overall">
+              <div class="text-sm font-semibold text-slate-800 mb-2">3. ความพึงพอใจในภาพรวมต่อการมีระบบให้บริการเอกสาร <span class="text-rose-500">*</span></div>
+              <div class="flex items-center justify-between gap-1.5 sm:gap-2">
+                <span class="text-[11px] text-slate-400 w-12 text-left hidden sm:inline">น้อยที่สุด</span>
+                <div class="grid grid-cols-5 gap-1.5 sm:gap-2 flex-1">
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b3_overall', 1, this)">1</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b3_overall', 2, this)">2</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b3_overall', 3, this)">3</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b3_overall', 4, this)">4</button>
+                  <button type="button" class="rating-btn border border-slate-200 rounded-xl text-slate-700 hover:border-indigo-300 flex items-center justify-center" aria-pressed="false" onclick="setRating('b3_overall', 5, this)">5</button>
+                </div>
+                <span class="text-[11px] text-slate-400 w-12 text-right hidden sm:inline">มากที่สุด</span>
+              </div>
+            </div>
+          </div>
+
+          <p id="errRatingsStep3" role="alert" class="text-xs text-rose-500 mt-4 hidden flex items-center gap-1">
+            <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i> กรุณาให้คะแนนประโยชน์ที่ได้รับให้ครบทั้ง 3 ข้อ
+          </p>
+        </div>
+
+        <!-- ================= STEP 4: ข้อเสนอแนะเพิ่มเติม ================= -->
+        <div id="stepPanel4" class="step-panel hidden fade-enter">
+          <div class="mb-6">
+            <h2 class="text-lg font-bold text-slate-900">ข้อเสนอแนะเพิ่มเติมเพื่อการพัฒนา</h2>
+            <p class="text-xs sm:text-sm text-slate-500 mt-1">ท่านสามารถเสนอแนะจุดที่ควรปรับปรุง หรือฟังก์ชันที่อยากให้มีเพิ่มเติมได้ (ไม่บังคับกรอก)</p>
+          </div>
+
+          <div class="mb-6">
+            <label for="userFeedback" class="block text-sm font-semibold text-slate-800 mb-2">
+              ข้อเสนอแนะหรือความคิดเห็นของท่าน
+            </label>
+            <textarea id="userFeedback" rows="5" class="w-full p-4 border border-slate-300 rounded-xl text-sm text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 transition resize-y" placeholder="เช่น อยากให้มีบริการฟอร์มประเภทใดเพิ่มเติม, เมนูที่อยากให้ใช้ง่ายขึ้น..."></textarea>
+          </div>
+
+          <div class="p-4 bg-indigo-50/60 border border-indigo-100 rounded-xl flex items-start gap-3">
+            <i data-lucide="shield-check" class="w-5 h-5 text-indigo-700 shrink-0 mt-0.5" aria-hidden="true"></i>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              แบบสอบถามนี้เป็นแบบไม่ระบุตัวตน (Anonymous) ข้อมูลความคิดเห็นของท่านจะถูกนำไปใช้เพื่อพัฒนาการให้บริการของระบบศูนย์รวมบริการเอกสาร LAMS Document Hub ศิลปศาสตร์และวิทยาการจัดการ เท่านั้น
+            </p>
+          </div>
+        </div>
+
+        <!-- Wizard Navigation Button Bar -->
+        <div id="navigationBar" class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between gap-3">
+          <button type="button" id="btnPrev" class="px-5 py-2.5 rounded-xl border border-slate-200 text-slate-600 text-sm font-medium hover:bg-slate-50 transition hidden" onclick="navigateStep(-1)">
+            ย้อนกลับ
+          </button>
+          <div class="ml-auto flex items-center gap-2">
+            <button type="button" id="btnNext" class="px-6 py-2.5 rounded-xl bg-indigo-700 text-white text-sm font-medium hover:bg-indigo-800 transition flex items-center gap-1.5 shadow-sm" onclick="navigateStep(1)">
+              <span>ถัดไป</span>
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+            <button type="button" id="btnSubmit" class="px-7 py-2.5 rounded-xl bg-indigo-700 text-white text-sm font-medium hover:bg-indigo-800 transition flex items-center gap-2 shadow-sm hidden" onclick="handleSubmitSurvey()">
+              <span id="submitBtnText">ส่งความคิดเห็น</span>
+              <i id="submitBtnIcon" data-lucide="send" class="w-4 h-4"></i>
+              <div id="submitBtnSpinner" class="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin hidden"></div>
+            </button>
+          </div>
+        </div>
+
+      </form>
+
+      <!-- ================= RESULT VIEW: หน้าแสดงความขอบคุณ & สรุปผล ================= -->
+      <div id="resultView" role="status" aria-live="polite" class="p-6 sm:p-10 text-center hidden fade-enter">
+        <div class="w-16 h-16 rounded-full bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center mx-auto mb-4 shadow-sm">
+          <i data-lucide="check" class="w-8 h-8 stroke-[2.5]" aria-hidden="true"></i>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">บันทึกข้อมูลเรียบร้อยแล้ว</h2>
+        <div class="max-w-xl mx-auto text-slate-600 text-sm leading-relaxed mb-6 space-y-1">
+          <p>
+            <span class="inline-block">คณะศิลปศาสตร์และวิทยาการจัดการ</span>
+            <span class="inline-block">ขอขอบคุณสำหรับความคิดเห็นของท่าน</span>
+          </p>
+          <p class="text-slate-500 text-xs sm:text-sm">
+            <span class="inline-block">ข้อมูลนี้จะเป็นประโยชน์อย่างมาก</span>
+            <span class="inline-block">ในการปรับปรุงบริการของเราให้ดียิ่งขึ้น</span>
+          </p>
+        </div>
+
+        <!-- 🏆 Hero Score Box: สรุปคะแนนเฉลี่ยความพึงพอใจของท่าน -->
+        <div class="max-w-md mx-auto bg-gradient-to-b from-indigo-50/80 to-white border border-indigo-100/90 rounded-2xl p-5 mb-6 text-center shadow-xs">
+          <div class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">คะแนนเฉลี่ยความพึงพอใจของท่าน</div>
+          <div class="flex items-baseline justify-center gap-1.5 my-2">
+            <span id="recapAvgScore" class="text-4xl sm:text-5xl font-black text-indigo-950 tracking-tight">0.0</span>
+            <span class="text-base sm:text-lg font-medium text-slate-400">/ 5</span>
+          </div>
+          <div class="mt-2">
+            <span id="recapLevelBadge" class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+              ระดับความพึงพอใจ: มากที่สุด
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 mt-2">(คำนวณจากคะแนนที่ท่านประเมินครบทั้ง 7 ข้อ)</p>
+        </div>
+
+        <!-- 📋 Itemized Recap Card: สรุปคะแนนประเมินรายข้อ (7 ข้อ สไตล์ตัวเลข Digital Governance ไร้รูปดาว) -->
+        <div class="max-w-xl mx-auto bg-white border border-slate-200/90 rounded-2xl p-4 sm:p-6 text-left mb-6 shadow-xs">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
+            <div class="flex items-center gap-2">
+              <i data-lucide="clipboard-check" class="w-4 h-4 text-indigo-700" aria-hidden="true"></i>
+              <h3 class="text-sm font-bold text-slate-900">สรุปคะแนนประเมินรายข้อของท่าน</h3>
+            </div>
+            <span class="text-xs text-slate-400">7 รายการ</span>
+          </div>
+          
+          <div id="recapItemsContainer" class="divide-y divide-slate-100 text-xs sm:text-sm">
+            <!-- Rendered securely via JS DOM creation (textContent) -->
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a href="https://lams.fms.psu.ac.th" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-700 text-white text-sm font-semibold hover:bg-indigo-800 transition shadow-sm inline-flex items-center justify-center gap-2 focus-visible:outline-2 focus-visible:outline-indigo-600 focus-visible:outline-offset-2">
+            <span>[ กลับสู่หน้ารวมบริการ LAMS ]</span>
+            <i data-lucide="external-link" class="w-4 h-4" aria-hidden="true"></i>
+          </a>
+          <button type="button" onclick="resetSurveyForm()" class="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-200 text-slate-600 text-sm font-medium hover:bg-slate-50 transition focus-visible:outline-2 focus-visible:outline-indigo-600 focus-visible:outline-offset-2">
+            ทำแบบสอบถามใหม่อีกครั้ง
+          </button>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="mt-8 text-center text-xs text-slate-400">
+      <p>© 2026 คณะศิลปศาสตร์และวิทยาการจัดการ มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตสุราษฎร์ธานี</p>
+      <p class="mt-1">ระบบศูนย์รวมบริการเอกสาร LAMS Document Hub</p>
+    </footer>
+
+  </div>
+
+  <!-- Application Logic -->
+  <script>
+    // State Management
+    const surveyState = {
+      currentStep: 1,
+      totalSteps: 4,
+      data: {
+        role: null,
+        services: [],
+        ratingsStep2: {
+          q1_ease: null,
+          q2_accuracy: null,
+          q3_speed: null,
+          q4_instruction: null
+        },
+        ratingsStep3: {
+          b1_time: null,
+          b2_accuracy: null,
+          b3_overall: null
+        },
+        feedback: ''
+      }
+    };
+
+    // Role Selection Handler
+    function handleRoleChange(radioEl) {
+      document.querySelectorAll('input[name="userRole"]').forEach(el => {
+        const card = el.closest('.card-choice');
+        const dot = card.querySelector('.radio-dot');
+        const circle = card.querySelector('.radio-circle');
+        if (el.checked) {
+          card.classList.add('active');
+          circle.classList.add('border-indigo-700');
+          circle.classList.remove('border-slate-300');
+          dot.classList.remove('hidden');
+          surveyState.data.role = el.value;
+        } else {
+          card.classList.remove('active');
+          circle.classList.remove('border-indigo-700');
+          circle.classList.add('border-slate-300');
+          dot.classList.add('hidden');
+        }
+      });
+      document.getElementById('errRole').classList.add('hidden');
+    }
+
+    // Service Selection Handlers
+    function handleServiceChange(checkboxEl) {
+      const cbNever = document.getElementById('cbNever');
+      if (checkboxEl.checked && cbNever.checked) {
+        cbNever.checked = false;
+        const neverCard = cbNever.closest('.card-choice');
+        neverCard.classList.remove('active');
+        neverCard.querySelector('.check-box').classList.remove('bg-indigo-700', 'border-indigo-700');
+        neverCard.querySelector('.check-box').classList.add('border-slate-300');
+        neverCard.querySelector('.check-icon').classList.add('hidden');
+      }
+
+      updateCheckboxUI(checkboxEl);
+      collectServices();
+    }
+
+    function handleNeverRequestedChange(neverEl) {
+      if (neverEl.checked) {
+        document.querySelectorAll('.service-item input[type="checkbox"]').forEach(el => {
+          el.checked = false;
+          updateCheckboxUI(el);
+        });
+      }
+      updateCheckboxUI(neverEl);
+      collectServices();
+    }
+
+    function updateCheckboxUI(checkboxEl) {
+      const card = checkboxEl.closest('.card-choice');
+      const box = card.querySelector('.check-box');
+      const icon = card.querySelector('.check-icon');
+      if (checkboxEl.checked) {
+        card.classList.add('active');
+        box.classList.add('bg-indigo-700', 'border-indigo-700');
+        box.classList.remove('border-slate-300');
+        icon.classList.remove('hidden');
+      } else {
+        card.classList.remove('active');
+        box.classList.remove('bg-indigo-700', 'border-indigo-700');
+        box.classList.add('border-slate-300');
+        icon.classList.add('hidden');
+      }
+    }
+
+    function collectServices() {
+      const checkedBoxes = document.querySelectorAll('input[name="services"]:checked');
+      surveyState.data.services = Array.from(checkedBoxes).map(cb => cb.value);
+
+      if (surveyState.data.services.length > 0) {
+        document.getElementById('errServices').classList.add('hidden');
+      }
+    }
+
+    // Rating Selection Handler
+    function setRating(questionId, score, btnEl) {
+      const groupEl = btnEl.closest('.rating-group');
+      groupEl.querySelectorAll('.rating-btn').forEach(btn => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.setAttribute('aria-checked', 'false');
+      });
+      btnEl.classList.add('active');
+      btnEl.setAttribute('aria-pressed', 'true');
+      btnEl.setAttribute('aria-checked', 'true');
+
+      if (questionId.startsWith('q')) {
+        surveyState.data.ratingsStep2[questionId] = score;
+        document.getElementById('errRatingsStep2').classList.add('hidden');
+      } else if (questionId.startsWith('b')) {
+        surveyState.data.ratingsStep3[questionId] = score;
+        document.getElementById('errRatingsStep3').classList.add('hidden');
+      }
+    }
+
+    // Validation
+    function validateCurrentStep() {
+      if (surveyState.currentStep === 1) {
+        let valid = true;
+        if (!surveyState.data.role) {
+          document.getElementById('errRole').classList.remove('hidden');
+          valid = false;
+        } else {
+          document.getElementById('errRole').classList.add('hidden');
+        }
+
+        if (surveyState.data.services.length === 0) {
+          document.getElementById('errServices').classList.remove('hidden');
+          valid = false;
+        } else {
+          document.getElementById('errServices').classList.add('hidden');
+        }
+
+        return valid;
+      }
+
+      if (surveyState.currentStep === 2) {
+        const { q1_ease, q2_accuracy, q3_speed, q4_instruction } = surveyState.data.ratingsStep2;
+        if (!q1_ease || !q2_accuracy || !q3_speed || !q4_instruction) {
+          document.getElementById('errRatingsStep2').classList.remove('hidden');
+          return false;
+        }
+        document.getElementById('errRatingsStep2').classList.add('hidden');
+        return true;
+      }
+
+      if (surveyState.currentStep === 3) {
+        const { b1_time, b2_accuracy, b3_overall } = surveyState.data.ratingsStep3;
+        if (!b1_time || !b2_accuracy || !b3_overall) {
+          document.getElementById('errRatingsStep3').classList.remove('hidden');
+          return false;
+        }
+        document.getElementById('errRatingsStep3').classList.add('hidden');
+        return true;
+      }
+
+      return true;
+    }
+
+    // Service Names Mapping for Context Anchor
+    const SERVICE_NAMES = {
+      project_budget: 'ขออนุมัติจัดโครงการ (มีงบประมาณ)',
+      project_no_budget: 'ขออนุมัติจัดโครงการ (ไม่ใช้งบประมาณ)',
+      speaker_external: 'ขอเชิญเป็นวิทยากรภายนอก',
+      speaker_internal: 'ขอเชิญเป็นวิทยากรภายใน',
+      field_trip: 'ขอความอนุเคราะห์เข้าศึกษาดูงาน',
+      interview_research: 'ขอความอนุเคราะห์เก็บข้อมูลสัมภาษณ์',
+      never_requested: 'ยังไม่เคยยื่นคำขอจริง (กำลังศึกษาการใช้งาน)'
+    };
+
+    function renderContextAnchor() {
+      const container = document.getElementById('contextAnchorServices');
+      if (!container) return;
+      container.innerHTML = '';
+
+      if (surveyState.data.services.includes('never_requested')) {
+        container.innerHTML = '<span class="inline-flex items-center px-2.5 py-1 rounded-md bg-amber-50 text-amber-900 border border-amber-200 text-xs">ระบุว่ายังไม่เคยยื่นคำขอจริง — โปรดประเมินจากภาพรวมข้อมูลและคำแนะนำที่ท่านได้ศึกษาเบื้องต้น</span>';
+        return;
+      }
+
+      surveyState.data.services.forEach(sKey => {
+        const name = SERVICE_NAMES[sKey];
+        if (name) {
+          const badge = document.createElement('span');
+          badge.className = 'inline-flex items-center px-2.5 py-0.5 rounded-full bg-white text-indigo-900 border border-indigo-200/80 text-xs font-medium shadow-xs';
+          badge.textContent = name;
+          container.appendChild(badge);
+        }
+      });
+    }
+
+    // Wizard Navigation
+    function navigateStep(direction) {
+      if (direction === 1 && !validateCurrentStep()) {
+        return;
+      }
+
+      const nextStep = surveyState.currentStep + direction;
+      if (nextStep < 1 || nextStep > surveyState.totalSteps) return;
+
+      if (nextStep === 2) {
+        renderContextAnchor();
+      }
+
+      // Hide current step panel
+      document.getElementById('stepPanel' + surveyState.currentStep).classList.add('hidden');
+
+      surveyState.currentStep = nextStep;
+
+      // Show next step panel
+      const nextPanel = document.getElementById('stepPanel' + surveyState.currentStep);
+      nextPanel.classList.remove('hidden');
+
+      // Update Header Progress
+      updateProgressUI();
+
+      // Update Navigation Buttons
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      const btnSubmit = document.getElementById('btnSubmit');
+
+      if (surveyState.currentStep === 1) {
+        btnPrev.classList.add('hidden');
+      } else {
+        btnPrev.classList.remove('hidden');
+      }
+
+      if (surveyState.currentStep === surveyState.totalSteps) {
+        btnNext.classList.add('hidden');
+        btnSubmit.classList.remove('hidden');
+      } else {
+        btnNext.classList.remove('hidden');
+        btnSubmit.classList.add('hidden');
+      }
+
+      // Smooth Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateProgressUI() {
+      const percent = Math.round((surveyState.currentStep / surveyState.totalSteps) * 100);
+      document.getElementById('progressBar').style.width = percent + '%';
+      document.getElementById('stepBadgeText').textContent = 'ขั้นตอนที่ ' + surveyState.currentStep + ' จาก ' + surveyState.totalSteps;
+      document.getElementById('progressPercentText').textContent = percent + '%';
+
+      // Update Step Indicator labels
+      document.querySelectorAll('[data-step-dot]').forEach(el => {
+        const stepNum = parseInt(el.getAttribute('data-step-dot'), 10);
+        const textSpan = el.querySelector('span');
+        if (stepNum <= surveyState.currentStep) {
+          textSpan.classList.add('text-indigo-700', 'font-semibold');
+          textSpan.classList.remove('text-slate-400');
+        } else {
+          textSpan.classList.remove('text-indigo-700', 'font-semibold');
+          textSpan.classList.add('text-slate-400');
+        }
+      });
+    }
+
+    // Questions Configuration for Recap Summary
+    const SURVEY_QUESTIONS = [
+      { id: 'q1_ease', text: '1. ความสะดวกและง่ายในการกรอกข้อมูล' },
+      { id: 'q2_accuracy', text: '2. ความถูกต้องสมบูรณ์ของไฟล์เอกสารที่ได้รับ' },
+      { id: 'q3_speed', text: '3. ความรวดเร็วในการได้รับเอกสาร (ผ่านระบบหรือทางอีเมล)' },
+      { id: 'q4_instruction', text: '4. ความชัดเจนของขั้นตอนและคำแนะนำในระบบ' },
+      { id: 'b1_time', text: '5. ช่วยประหยัดเวลาเทียบกับวิธีเดิม' },
+      { id: 'b2_accuracy', text: '6. ช่วยลดความผิดพลาดและลดการถูกส่งกลับ' },
+      { id: 'b3_overall', text: '7. ความพึงพอใจภาพรวมต่อระบบ LAMS Document Hub' }
+    ];
+
+    const SCORE_LABELS = {
+      1: 'น้อยที่สุด',
+      2: 'น้อย',
+      3: 'ปานกลาง',
+      4: 'มาก',
+      5: 'มากที่สุด'
+    };
+
+    function getScoreLevel(avg) {
+      if (avg >= 4.21) return { text: 'ระดับความพึงพอใจ: มากที่สุด', bg: 'bg-emerald-50', textCol: 'text-emerald-700', border: 'border-emerald-200/80' };
+      if (avg >= 3.41) return { text: 'ระดับความพึงพอใจ: มาก', bg: 'bg-indigo-50', textCol: 'text-indigo-700', border: 'border-indigo-200/80' };
+      if (avg >= 2.61) return { text: 'ระดับความพึงพอใจ: ปานกลาง', bg: 'bg-amber-50', textCol: 'text-amber-700', border: 'border-amber-200/80' };
+      if (avg >= 1.81) return { text: 'ระดับความพึงพอใจ: น้อย', bg: 'bg-orange-50', textCol: 'text-orange-700', border: 'border-orange-200/80' };
+      return { text: 'ระดับความพึงพอใจ: น้อยที่สุด', bg: 'bg-rose-50', textCol: 'text-rose-700', border: 'border-rose-200/80' };
+    }
+
+    function renderRecapSummary(avgScore, allScores) {
+      const avgEl = document.getElementById('recapAvgScore');
+      if (avgEl) avgEl.textContent = avgScore.toFixed(1);
+
+      const level = getScoreLevel(avgScore);
+      const badge = document.getElementById('recapLevelBadge');
+      if (badge) {
+        badge.textContent = level.text;
+        badge.className = `inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold ${level.bg} ${level.textCol} border ${level.border}`;
+      }
+
+      const container = document.getElementById('recapItemsContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      SURVEY_QUESTIONS.forEach(q => {
+        const score = allScores[q.id] || 0;
+        const row = document.createElement('div');
+        row.className = 'py-2.5 flex items-center justify-between gap-3';
+
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'text-slate-700 font-medium truncate flex-1';
+        titleSpan.textContent = q.text;
+
+        const badgeWrap = document.createElement('div');
+        badgeWrap.className = 'flex items-center gap-1.5 shrink-0';
+
+        const scoreBadge = document.createElement('span');
+        scoreBadge.className = 'px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-900 border border-indigo-100 font-bold text-xs';
+        scoreBadge.textContent = `${score} / 5`;
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'text-[11px] text-slate-500 hidden sm:inline';
+        labelSpan.textContent = `(${SCORE_LABELS[score] || '-'})`;
+
+        badgeWrap.appendChild(scoreBadge);
+        badgeWrap.appendChild(labelSpan);
+        row.appendChild(titleSpan);
+        row.appendChild(badgeWrap);
+        container.appendChild(row);
+      });
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    }
+
+    function resetSurveyForm() {
+      surveyState.currentStep = 1;
+      surveyState.data.role = null;
+      surveyState.data.services = [];
+      surveyState.data.ratingsStep2 = { q1_ease: null, q2_accuracy: null, q3_speed: null, q4_instruction: null };
+      surveyState.data.ratingsStep3 = { b1_time: null, b2_accuracy: null, b3_overall: null };
+      surveyState.data.feedback = '';
+
+      document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i => i.checked = false);
+      document.querySelectorAll('.card-choice').forEach(c => c.classList.remove('active'));
+      document.querySelectorAll('.rating-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+        b.setAttribute('aria-checked', 'false');
+      });
+      document.querySelectorAll('.check-box').forEach(b => {
+        b.classList.remove('bg-indigo-700', 'border-indigo-700');
+        b.classList.add('border-slate-300');
+      });
+      document.querySelectorAll('.check-icon').forEach(i => i.classList.add('hidden'));
+      const feedbackInput = document.getElementById('userFeedback');
+      if (feedbackInput) feedbackInput.value = '';
+
+      document.querySelectorAll('.step-panel').forEach(p => p.classList.add('hidden'));
+      document.getElementById('stepPanel1').classList.remove('hidden');
+      document.getElementById('resultView').classList.add('hidden');
+      document.getElementById('surveyForm').classList.remove('hidden');
+      document.getElementById('progressSection').classList.remove('hidden');
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      btnSubmit.disabled = false;
+      document.getElementById('submitBtnText').textContent = 'ส่งความคิดเห็น';
+      document.getElementById('submitBtnIcon').classList.remove('hidden');
+      document.getElementById('submitBtnSpinner').classList.add('hidden');
+
+      updateProgressUI();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Endpoint URL for Google Apps Script Web App
+    const ENDPOINT_URL = 'https://script.google.com/macros/s/AKfycbyB9RKEhm-cP-NLKlQpjy3BBwGasiNxYpPQpeIRVZQSrzrYcks7J1_iThX9WuXwwn1F/exec';
+
+    // Submit Survey
+    async function handleSubmitSurvey() {
+      const feedbackInput = document.getElementById('userFeedback');
+      const feedback = feedbackInput ? feedbackInput.value.trim() : '';
+      surveyState.data.feedback = feedback;
+
+      const btnSubmit = document.getElementById('btnSubmit');
+      const submitText = document.getElementById('submitBtnText');
+      const submitIcon = document.getElementById('submitBtnIcon');
+      const submitSpinner = document.getElementById('submitBtnSpinner');
+
+      btnSubmit.disabled = true;
+      submitText.textContent = 'กำลังบันทึก...';
+      submitIcon.classList.add('hidden');
+      submitSpinner.classList.remove('hidden');
+
+      // Calculate validated average score from the 7 questions
+      const allScores = {
+        ...surveyState.data.ratingsStep2,
+        ...surveyState.data.ratingsStep3
+      };
+      const scoreValues = Object.values(allScores).map(v => parseInt(v, 10)).filter(v => Number.isInteger(v) && v >= 1 && v <= 5);
+      const avgScore = scoreValues.length === 7 ? (scoreValues.reduce((a, b) => a + b, 0) / 7) : 0;
+
+      // Prepare Submission Payload
+      const payload = {
+        timestamp: new Date().toISOString(),
+        role: surveyState.data.role,
+        services: surveyState.data.services,
+        ratingsStep2: surveyState.data.ratingsStep2,
+        ratingsStep3: surveyState.data.ratingsStep3,
+        averageScore: avgScore.toFixed(2),
+        suggestions: feedback
+      };
+
+      // Send to Google Sheet Web App if ENDPOINT_URL is configured
+      if (ENDPOINT_URL && ENDPOINT_URL.startsWith('https://')) {
+        try {
+          await fetch(ENDPOINT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.warn('Network submit warning:', err);
+        }
+      } else {
+        // Mock Save to localStorage
+        try {
+          const existingData = JSON.parse(localStorage.getItem('lams_survey_mock') || '[]');
+          existingData.push(payload);
+          localStorage.setItem('lams_survey_mock', JSON.stringify(existingData));
+        } catch (err) {
+          console.warn('LocalStorage save failed:', err);
+        }
+      }
+
+      // Transition to Result View with Recap Card
+      setTimeout(() => {
+        renderRecapSummary(avgScore, allScores);
+        document.getElementById('surveyForm').classList.add('hidden');
+        document.getElementById('progressSection').classList.add('hidden');
+        document.getElementById('resultView').classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 500);
+    }
+
+    // Initialize Lucide Icons on load
+    window.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
