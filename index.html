@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#4338CA">
   <title>แบบสอบถามความพึงพอใจต่อระบบศูนย์รวมบริการเอกสาร LAMS Document Hub</title>
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg">
+  <link rel="apple-touch-icon" href="assets/logo.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -108,18 +110,25 @@
 
     <!-- Top Header -->
     <header class="mb-6 sm:mb-8 text-center sm:text-left flex flex-col sm:flex-row items-center sm:items-start gap-4">
-      <div class="w-14 h-14 rounded-2xl bg-indigo-700 text-white flex items-center justify-center shrink-0 shadow-sm border border-indigo-800/30">
-        <i data-lucide="layers" class="w-7 h-7"></i>
+      <div class="w-16 h-16 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shrink-0 shadow-md border border-slate-200/80 bg-white flex items-center justify-center p-0.5">
+        <img src="assets/logo.jpg" alt="LAMS Logo" class="w-full h-full object-cover rounded-[14px]">
       </div>
       <div>
         <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200/60 mb-1.5">
           <span>ศูนย์รวมบริการเอกสารอิเล็กทรอนิกส์</span>
         </div>
-        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+        <h1 class="text-lg sm:text-2xl font-bold text-slate-900 leading-tight">
           <span class="block">แบบสอบถามความพึงพอใจ</span>
-          <span class="block text-indigo-950 mt-0.5">ระบบศูนย์รวมบริการเอกสาร LAMS Document Hub</span>
+          <span class="block text-indigo-950 mt-1 text-[17px] sm:text-2xl">
+            <span class="inline-block">ระบบศูนย์รวมบริการเอกสาร</span>
+            <span class="inline-block">LAMS Document Hub</span>
+          </span>
         </h1>
-        <p class="text-sm text-slate-500 mt-1">คณะศิลปศาสตร์และวิทยาการจัดการ มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตสุราษฎร์ธานี</p>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1.5 leading-relaxed">
+          <span class="inline-block">คณะศิลปศาสตร์และวิทยาการจัดการ</span>
+          <span class="inline-block">มหาวิทยาลัยสงขลานครินทร์</span>
+          <span class="inline-block">วิทยาเขตสุราษฎร์ธานี</span>
+        </p>
       </div>
     </header>
 
@@ -139,18 +148,18 @@
         </div>
 
         <!-- Step Indicator Dots -->
-        <div class="grid grid-cols-4 gap-2 mt-4 text-center">
+        <div class="grid grid-cols-4 gap-1 sm:gap-2 mt-4 text-center">
           <div class="step-indicator" data-step-dot="1">
-            <span class="text-xs font-medium text-indigo-700 block truncate">1. ข้อมูลผู้ใช้</span>
+            <span class="text-[11px] sm:text-xs font-medium text-indigo-700 block truncate">1. ผู้ใช้งาน</span>
           </div>
           <div class="step-indicator" data-step-dot="2">
-            <span class="text-xs font-medium text-slate-400 block truncate">2. ความพึงพอใจ</span>
+            <span class="text-[11px] sm:text-xs font-medium text-slate-400 block truncate">2. ความพึงพอใจ</span>
           </div>
           <div class="step-indicator" data-step-dot="3">
-            <span class="text-xs font-medium text-slate-400 block truncate">3. ประโยชน์ที่ได้รับ</span>
+            <span class="text-[11px] sm:text-xs font-medium text-slate-400 block truncate">3. ประโยชน์ที่ได้</span>
           </div>
           <div class="step-indicator" data-step-dot="4">
-            <span class="text-xs font-medium text-slate-400 block truncate">4. ข้อเสนอแนะ</span>
+            <span class="text-[11px] sm:text-xs font-medium text-slate-400 block truncate">4. ข้อเสนอแนะ</span>
           </div>
         </div>
       </div>
@@ -537,8 +546,12 @@
     </main>
 
     <!-- Footer Note -->
-    <footer class="mt-8 text-center text-xs text-slate-400">
-      <p>© 2026 คณะศิลปศาสตร์และวิทยาการจัดการ มหาวิทยาลัยสงขลานครินทร์ วิทยาเขตสุราษฎร์ธานี</p>
+    <footer class="mt-8 text-center text-xs text-slate-400 leading-relaxed">
+      <p>
+        <span class="inline-block">© 2026 คณะศิลปศาสตร์และวิทยาการจัดการ</span>
+        <span class="inline-block">มหาวิทยาลัยสงขลานครินทร์</span>
+        <span class="inline-block">วิทยาเขตสุราษฎร์ธานี</span>
+      </p>
       <p class="mt-1">ระบบศูนย์รวมบริการเอกสาร LAMS Document Hub</p>
     </footer>
 
